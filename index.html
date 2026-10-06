@@ -1,846 +1,587 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Hollyvooz is the cloud-native platform for professional dubbing, voice acting and advertising voice-over production. Collaborate remotely in real time." />
-  <meta property="og:title" content="Hollyvooz — Cloud Voice Production Platform" />
-  <meta property="og:description" content="Where clients, voice actors, sound engineers and QA teams create together — from anywhere." />
-  <title>Hollyvooz — Cloud Voice Production Platform</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hollyvooz · Producción de voz premium en español</title>
+<meta name="description" content="Cuéntanos tu proyecto. Un productor te propone 3 voces escogidas a mano y tú apruebas la grabación, en directo o cuando te venga bien.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Ccircle cx='14' cy='14' r='14' fill='%233D63C5'/%3E%3Crect x='7' y='10' width='3' height='8' rx='1.5' fill='white'/%3E%3Crect x='12.5' y='7' width='3' height='14' rx='1.5' fill='white'/%3E%3Crect x='18' y='11' width='3' height='6' rx='1.5' fill='white'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Primitivos (design system Hollyvooz) */
+  --porcelana-100:#E9E8EC; --porcelana-50:#F4F3F6; --blanco:#FFFFFF;
+  --indigo-50:#EEEFFB; --indigo-500:#3D63C5; --indigo-700:#2A4799;
+  --boston-100:#C3DBEE; --boston-500:#3182BE;
+  --canon-50:#F4E6EE; --canon-500:#8B3F6D;
+  --ebano-950:#17192B; --ebano-900:#21253C; --ebano-800:#2B3049; --ebano-700:#363B57; --ebano-600:#4A4F6E;
+  --gris-500:#5C6075; --gris-400:#8A8C9E; --gris-300:#A3A6BB; --gris-200:#DCDAE2; --hueso:#ECEEF3;
+  --rojo-50:#FDECEC; --rojo-300:#F08A8A; --rojo-700:#B42828; --verde-500:#4AD18A; --verde-700:#2E7D46; --verde-50:#EAF6EE;
+
+  /* Semánticos */
+  --bg-page:var(--porcelana-50); --bg-surface:var(--blanco); --bg-subtle:var(--porcelana-100);
+  --border:var(--gris-200); --text:var(--ebano-900); --text-2:var(--gris-500);
+  --action:var(--indigo-500); --action-hover:var(--indigo-700); --action-subtle:var(--indigo-50);
+  --curation:var(--canon-500); --audio:var(--boston-500);
+
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s8:48px; --s10:64px; --s12:96px;
+  --r-sm:8px; --r-md:12px; --r-lg:18px;
+  --sans:"Geist",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --max:1200px;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+[id]{scroll-margin-top:80px}
+body{margin:0;font-family:var(--sans);color:var(--text);background:var(--bg-page);line-height:1.55;-webkit-font-smoothing:antialiased;font-size:16px}
+h1,h2,h3,p{margin:0}
+a{color:var(--action)}
+:focus-visible{outline:2px solid var(--boston-100);outline-offset:3px;border-radius:6px}
+.light :focus-visible{outline-color:var(--action)}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--s5)}
+.icon{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.skip{position:absolute;left:-999px;top:8px;background:var(--blanco);color:var(--text);padding:12px 14px;z-index:20;border-radius:6px}
+.skip:focus{left:8px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Botones */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--s2);font:600 15px/1 var(--sans);padding:14px 20px;border-radius:var(--r-sm);border:1px solid transparent;cursor:pointer;text-decoration:none;transition:background-color .15s,border-color .15s,color .15s}
+.btn--primary{background:var(--action);color:#fff}
+.btn--primary:hover{background:var(--action-hover)}
+.btn--ghost{color:var(--hueso);border-color:var(--gris-400)}
+.btn--ghost:hover{border-color:var(--gris-300)}
+.btn--outline{color:var(--text);border-color:var(--border);background:var(--bg-surface)}
+.btn--outline:hover{border-color:var(--action)}
+.btn--sm{padding:10px 14px;font-size:14px;min-height:44px}
+
+/* ===== Cabecera + hero (oscuro: el estudio) ===== */
+.stage{background:var(--ebano-900);color:var(--hueso);position:relative;overflow:hidden}
+.stage::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(to right,rgba(236,238,243,.045) 1px,transparent 1px);background-size:80px 100%;
+  -webkit-mask-image:linear-gradient(to bottom,#000 0,#000 55%,transparent 100%);mask-image:linear-gradient(to bottom,#000 0,#000 55%,transparent 100%)}
+.nav{position:sticky;top:0;z-index:10;background:rgba(33,37,60,.88);backdrop-filter:blur(10px);border-bottom:1px solid rgba(236,238,243,.08)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:var(--s5)}
+.brand{display:flex;align-items:center;min-height:44px;gap:10px;font-weight:600;font-size:17px;letter-spacing:-.01em;color:var(--hueso);text-decoration:none}
+.nav ul{display:flex;gap:var(--s6);list-style:none;margin:0;padding:0}
+.nav ul a{color:var(--gris-300);text-decoration:none;font-size:14px;display:inline-flex;align-items:center;min-height:44px;padding:0 4px}
+.nav ul a:hover{color:var(--hueso)}
+@media (max-width:880px){.nav ul{display:none}}
+
+.hero{position:relative;padding:88px 0 0}
+.hero h1{font-size:clamp(40px,6.4vw,76px);line-height:1.02;letter-spacing:-.035em;font-weight:600;max-width:15ch}
+.hero .sub{margin-top:var(--s5);font-size:19px;line-height:1.55;color:var(--gris-300);max-width:56ch}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:var(--s3);margin-top:var(--s6)}
+.hero .fine{margin-top:var(--s4);font-size:14px;color:var(--gris-300)}
+
+/* Consola (lo memorable) */
+.console{margin:72px 0 0;border:1px solid var(--ebano-600);border-bottom:0;border-radius:16px 16px 0 0;background:var(--ebano-950);overflow:hidden;
+  box-shadow:0 -1px 0 rgba(236,238,243,.06) inset}
+.c-top{display:flex;align-items:center;gap:var(--s4);padding:12px 18px;border-bottom:1px solid var(--ebano-700);font-size:13px;color:var(--gris-300)}
+.c-top strong{color:var(--hueso);font-weight:500}
+.c-top .sp{flex:1}
+.anim-btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 12px;border-radius:8px;border:1px solid var(--gris-400);background:transparent;color:var(--hueso);font:500 13px/1 var(--sans);cursor:pointer}
+.anim-btn:hover{border-color:var(--hueso)}
+.anim-btn .icon{width:14px;height:14px;fill:currentColor;stroke:none}
+.console.is-paused *{animation-play-state:paused!important}
+.menu{display:none;position:relative}
+.menu summary{list-style:none;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 12px;border:1px solid var(--gris-400);border-radius:8px;color:var(--hueso);font-size:14px;cursor:pointer}
+.menu summary::-webkit-details-marker{display:none}
+.menu summary .icon{color:inherit}
+.menu[open] summary .icon{transform:none}
+.menu ul{position:absolute;right:0;top:52px;display:block;min-width:220px;background:var(--ebano-800);border:1px solid var(--ebano-600);border-radius:12px;padding:6px;list-style:none;margin:0;box-shadow:0 16px 40px rgba(23,25,43,.5)}
+.menu ul a{display:flex;align-items:center;min-height:44px;padding:0 12px;border-radius:8px;color:var(--hueso);text-decoration:none;font-size:15px}
+.menu ul a:hover{background:var(--ebano-700)}
+.nav-right{display:flex;align-items:center;gap:8px}
+@media (max-width:880px){.menu{display:block}}
+@media (max-width:420px){.nav-right .btn--primary{display:none}}
+@media (max-width:640px){.c-top{flex-wrap:wrap;gap:8px 12px}.c-top .sp,.c-top .rev{display:none}.c-main{padding:18px 16px 0}.wave{height:84px}.script{font-size:17px}.c-side{padding:16px}}
+.rec{display:inline-flex;align-items:center;gap:8px;padding:5px 10px;border-radius:999px;background:rgba(240,138,138,.12);color:var(--rojo-300);font-weight:500}
+.rec i{width:7px;height:7px;border-radius:50%;background:var(--rojo-300);animation:blink 1.4s ease-in-out infinite}
+@keyframes blink{50%{opacity:.25}}
+.c-body{display:grid;grid-template-columns:1fr 340px}
+@media (max-width:900px){.c-body{grid-template-columns:1fr}}
+.c-main{padding:22px 22px 0;border-right:1px solid var(--ebano-700);min-width:0}
+@media (max-width:900px){.c-main{border-right:0}}
+.tc{display:flex;align-items:baseline;justify-content:space-between;gap:var(--s4);flex-wrap:wrap}
+.tc .time{font-family:var(--mono);font-size:clamp(28px,4vw,40px);letter-spacing:-.02em;color:var(--hueso);font-variant-numeric:tabular-nums}
+.tc .who{font-size:14px;color:var(--gris-300)}
+.tc .who b{color:var(--hueso);font-weight:500}
+.script{margin:18px 0 14px;font-size:20px;line-height:1.4;color:var(--gris-300)}
+.script mark{background:none;color:var(--hueso);box-shadow:inset 0 -2px 0 var(--indigo-500)}
+.ruler{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;color:var(--gris-400);padding:0 2px;margin-bottom:6px}
+.wave{position:relative;height:120px}
+.wave canvas{width:100%;height:100%;display:block}
+.takes{display:flex;gap:var(--s2);flex-wrap:wrap;padding:16px 0 22px;font-size:13px}
+.take{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:999px;border:1px solid var(--ebano-600);color:var(--gris-300)}
+.take--live{border-color:rgba(240,138,138,.4);color:var(--rojo-300)}
+.take em{font-style:normal;font-family:var(--mono);font-size:12px;color:var(--gris-300)}
+.c-side{display:flex;flex-direction:column;padding:18px;gap:12px;background:var(--ebano-900)}
+.c-side h2{font-size:14px;font-weight:500;color:var(--gris-300)}
+.presence{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--r-md);background:var(--ebano-800)}
+.av{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:600;font-size:14px;flex:none}
+.av-m{background:linear-gradient(135deg,var(--canon-500),var(--indigo-500))}
+.av-l{background:linear-gradient(135deg,var(--indigo-500),var(--boston-500))}
+.av-c{background:linear-gradient(135deg,var(--boston-500),var(--ebano-900))}
+.presence p{font-size:13px;line-height:1.35}
+.presence p span{display:block;color:var(--gris-300);font-size:12px}
+.meter{display:flex;gap:2px;align-items:flex-end;height:16px;margin-left:auto}
+.meter b{width:3px;border-radius:2px;background:var(--verde-500);animation:lvl .9s ease-in-out infinite alternate}
+.meter b:nth-child(2){animation-delay:.15s}.meter b:nth-child(3){animation-delay:.3s}.meter b:nth-child(4){animation-delay:.45s}
+@keyframes lvl{from{height:4px}to{height:16px}}
+.msgs{display:flex;flex-direction:column;gap:10px;margin-top:auto}
+.msg{align-self:flex-end;max-width:92%;background:var(--indigo-500);color:#fff;border-radius:12px 12px 4px 12px;padding:9px 12px;font-size:14px}
+.msg small{display:block;font-size:12px;opacity:.8;margin-bottom:2px}
+.msg--in{transform:translateY(6px);opacity:0;transition:opacity .4s,transform .4s}
+.msg--in.show{opacity:1;transform:none}
+.note-live{font-size:12px;color:var(--gris-300);text-align:right}
+.composer{display:flex;gap:8px;align-items:center;border:1px solid var(--ebano-600);border-radius:10px;padding:6px 6px 6px 12px;font-size:13px;color:var(--gris-300)}
+.composer span{flex:1}
+.composer b{background:var(--action);color:#fff;font-weight:500;padding:6px 10px;border-radius:6px}
+
+/* ===== Secciones claras ===== */
+.light{background:var(--bg-page)}
+section{padding:var(--s12) 0}
+.sec-head{display:grid;grid-template-columns:1fr 1fr;gap:var(--s8);align-items:end}
+@media (max-width:860px){.sec-head{grid-template-columns:1fr;gap:var(--s4)}}
+h2.big{font-size:clamp(30px,3.8vw,46px);line-height:1.08;letter-spacing:-.03em;font-weight:600;max-width:18ch}
+.sec-head p{color:var(--text-2);font-size:18px;max-width:52ch}
+
+/* Pistas */
+.tracks{margin-top:var(--s10);border:1px solid var(--border);border-radius:var(--r-lg);background:var(--bg-surface);overflow:hidden}
+.t-ruler{display:grid;grid-template-columns:140px 1fr;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:12px;color:var(--text-2)}
+.t-ruler div:first-child{padding:10px 16px;border-right:1px solid var(--border)}
+.t-ruler .marks{display:flex;justify-content:space-between;padding:10px 16px}
+.lane{display:grid;grid-template-columns:140px 1fr;border-bottom:1px solid var(--border);min-height:132px}
+.lane:last-child{border-bottom:0}
+.lane-name{padding:16px;border-right:1px solid var(--border);font-weight:600;font-size:15px}
+.lane-name span{display:block;font-weight:400;color:var(--text-2);font-size:13px;margin-top:2px}
+.lane-area{position:relative;padding:16px;display:grid;grid-template-columns:repeat(12,1fr);gap:8px;align-items:stretch}
+.clip{border-radius:10px;padding:12px 14px;font-size:14px;line-height:1.4;display:flex;flex-direction:column;gap:4px}
+.clip h3{font-size:15px;font-weight:600;display:flex;align-items:center;gap:8px}
+.clip p{color:var(--text-2);font-size:13.5px}
+.clip--you{background:var(--action-subtle);border:1px solid var(--gris-200)}
+.clip--you h3 .n{font-family:var(--mono);font-size:12px;font-weight:500;color:var(--action);background:#fff;border-radius:6px;padding:2px 6px}
+.clip--team{background:var(--bg-subtle);border:1px dashed var(--gris-300)}
+.lane-area .c1{grid-column:1 / span 3}.lane-area .c2{grid-column:5 / span 3}.lane-area .c3{grid-column:9 / span 4}
+.lane-area .t1{grid-column:1 / -1}
+@media (max-width:860px){
+  .t-ruler{display:none}
+  .lane{grid-template-columns:1fr}
+  .lane-name{border-right:0;border-bottom:1px solid var(--border)}
+  .lane-area{grid-template-columns:1fr}
+  .lane-area .c1,.lane-area .c2,.lane-area .c3,.lane-area .t1{grid-column:auto}
+}
+.after{margin-top:var(--s5);display:flex;gap:12px;align-items:flex-start;color:var(--text-2);font-size:15px;max-width:70ch}
+.after .icon{color:var(--action);margin-top:3px}
+
+/* Por qué humano */
+.human{background:var(--bg-surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.human-grid{display:grid;grid-template-columns:5fr 7fr;gap:var(--s10);align-items:start}
+@media (max-width:900px){.human-grid{grid-template-columns:1fr;gap:var(--s6)}}
+.human-grid > div:first-child p{margin-top:var(--s5);color:var(--text-2);font-size:18px;max-width:46ch}
+.reasons{list-style:none;margin:0;padding:0}
+.reasons li{display:grid;grid-template-columns:48px 1fr;gap:var(--s4);padding:var(--s5) 0;border-top:1px solid var(--border)}
+.reasons li:first-child{border-top:0;padding-top:0}
+.reasons .ic{width:48px;height:48px;border-radius:var(--r-md);display:grid;place-items:center;background:var(--action-subtle);color:var(--action)}
+.reasons .ic--cur{background:var(--canon-50);color:var(--curation)}
+.reasons h3{font-size:19px;font-weight:600;letter-spacing:-.01em}
+.reasons p{color:var(--text-2);margin-top:4px}
+.casting{margin-top:var(--s6);border:1px solid var(--border);border-radius:var(--r-lg);padding:var(--s4);background:var(--bg-page)}
+.casting > p{font-size:14px;color:var(--text-2);padding:2px 4px 12px}
+.voice{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--r-md);background:var(--bg-surface);border:1px solid var(--border)}
+.voice + .voice{margin-top:8px}
+.voice--rec{border:1.5px solid var(--curation)}
+.voice .meta{flex:1;min-width:0;font-size:14px;line-height:1.35}
+.voice .meta b{font-weight:600}
+.voice .meta span{display:block;color:var(--text-2);font-size:13px}
+.voice .meta .why{color:var(--curation);font-weight:500}
+.play{width:44px;height:44px;border-radius:50%;border:0;background:var(--action);color:#fff;display:grid;place-items:center;cursor:pointer;flex:none}
+.play .icon{width:14px;height:14px;fill:currentColor;stroke:none}
+.play[aria-pressed="true"]{background:var(--curation)}
+
+/* Brief */
+.brief-grid{display:grid;grid-template-columns:5fr 7fr;gap:var(--s10);align-items:start}
+@media (max-width:960px){.brief-grid{grid-template-columns:1fr;gap:var(--s6)}}
+.brief-grid > div:first-child p{margin-top:var(--s5);color:var(--text-2);font-size:18px;max-width:44ch}
+.next{list-style:none;padding:0;margin:var(--s6) 0 0;counter-reset:n}
+.next li{display:grid;grid-template-columns:28px 1fr;gap:12px;padding:10px 0;font-size:15px}
+.next .icon{color:var(--action);margin-top:3px}
+.sheet{background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:0 1px 2px rgba(33,37,60,.05),0 16px 40px -12px rgba(33,37,60,.12)}
+.sheet-top{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid var(--border);font-size:14px;color:var(--text-2)}
+.sheet-top b{color:var(--text);font-weight:600}
+.sheet-top code{font-family:var(--mono);font-size:12px}
+form{display:grid;gap:20px;padding:24px}
+@media (max-width:520px){form{padding:18px}}
+fieldset{border:0;margin:0;padding:0}
+legend,label{display:block;font-size:14px;font-weight:600;margin-bottom:8px}
+.hint{font-size:13px;color:var(--text-2);margin:-4px 0 8px;font-weight:400}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips input{position:absolute;opacity:0;pointer-events:none}
+.chips label{margin:0;font-weight:500;font-size:14px;padding:9px 14px;border-radius:999px;border:1px solid var(--gris-400);cursor:pointer;min-height:44px;display:inline-flex;align-items:center;background:var(--bg-surface)}
+.chips input:checked+label{background:var(--action-subtle);border:1.5px solid var(--action);color:var(--action-hover);font-weight:600}
+.chips input:focus-visible+label{outline:2px solid var(--action);outline-offset:2px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:480px){.row2{grid-template-columns:1fr}}
+input[type=text],input[type=email],input[type=date],textarea{width:100%;font:400 16px/1.4 var(--sans);color:var(--text);background:var(--bg-surface);border:1px solid var(--gris-400);border-radius:var(--r-sm);padding:12px 14px}
+input:focus,textarea:focus{outline:none;border:2px solid var(--action);padding:11px 13px}
+textarea{min-height:96px;resize:vertical}
+::placeholder{color:var(--gris-500)}
+.error{display:flex;gap:6px;align-items:center;font-size:13px;color:var(--rojo-700);margin:0 0 8px}
+[aria-invalid="true"]{border-color:var(--rojo-700)!important;background:var(--rojo-50)!important}
+.submit-row{display:flex;flex-wrap:wrap;gap:var(--s4);align-items:center}
+.submit-row p{font-size:13px;color:var(--text-2)}
+.done{padding:28px 24px}
+.done .ok{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:var(--verde-50);color:var(--verde-700);font-weight:600;font-size:14px}
+.done h3{font-size:28px;letter-spacing:-.02em;margin:var(--s4) 0 var(--s2)}
+.done p{color:var(--text-2);margin-bottom:var(--s4)}
+.demo{font-size:13px;background:var(--bg-page);border:1px dashed var(--gris-300);border-radius:var(--r-sm);padding:10px 12px;color:var(--text-2)}
+
+/* FAQ */
+.faq-grid{display:grid;grid-template-columns:5fr 7fr;gap:var(--s10)}
+@media (max-width:900px){.faq-grid{grid-template-columns:1fr;gap:var(--s5)}}
+details{border-top:1px solid var(--border);padding:0}
+details:last-child{border-bottom:1px solid var(--border)}
+summary{padding:18px 0;min-height:44px;font-weight:600;font-size:17px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary .icon{transition:transform .2s;color:var(--text-2)}
+details[open] summary .icon{transform:rotate(45deg)}
+details p{margin:0 0 20px;color:var(--text-2);max-width:60ch}
+
+/* Pie */
+footer{background:var(--ebano-900);color:var(--gris-300);padding:56px 0 40px}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:var(--s6);align-items:flex-start}
+.foot h2{font-size:22px;color:var(--hueso);font-weight:600;letter-spacing:-.02em}
+.foot p{margin-top:6px;max-width:52ch}
+.foot-bottom{margin-top:var(--s8);padding-top:var(--s5);border-top:1px solid var(--ebano-700);display:flex;justify-content:space-between;flex-wrap:wrap;gap:var(--s4);font-size:13px}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
 </head>
 <body>
+<a class="skip" href="#brief">Ir al formulario de brief</a>
 
-<!-- ─── Navigation ─────────────────────────────────────────────────── -->
-<nav class="nav" id="nav" role="navigation" aria-label="Main navigation">
-  <div class="container">
-    <div class="nav-inner">
-      <a href="/" class="nav-logo" aria-label="Hollyvooz home">
-        <div class="logo-mark" aria-hidden="true">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <path d="M3 9a6 6 0 0 1 12 0" stroke="white" stroke-width="2" stroke-linecap="round"/>
-            <path d="M3 9a6 6 0 0 0 12 0" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round"/>
-            <circle cx="9" cy="9" r="2" fill="white"/>
-            <path d="M9 3V1M9 17v-2" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-        </div>
-        Hollyvooz
-      </a>
-      <nav class="nav-links" aria-label="Site links">
-        <a href="#features">Platform</a>
-        <a href="#workflows">Workflows</a>
-        <a href="#pricing">Pricing</a>
-        <a href="#security">Enterprise</a>
-        <a href="#faq">Docs</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-logo" viewBox="0 0 28 28"><circle cx="14" cy="14" r="14" fill="#3D63C5"/><rect x="7" y="10" width="3" height="8" rx="1.5" fill="#fff"/><rect x="12.5" y="7" width="3" height="14" rx="1.5" fill="#fff"/><rect x="18" y="11" width="3" height="6" rx="1.5" fill="#fff"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><polygon points="7 4 20 12 7 20 7 4"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
+  <symbol id="i-headphones" viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></symbol>
+</svg>
+
+<div class="stage">
+  <header class="nav">
+    <div class="wrap">
+      <a class="brand" href="#inicio" aria-label="Hollyvooz, inicio"><svg width="28" height="28" aria-hidden="true"><use href="#i-logo"/></svg>Hollyvooz</a>
+      <nav aria-label="Principal">
+        <ul>
+          <li><a href="#como-funciona">Cómo funciona</a></li>
+          <li><a href="#por-que-humano">Por qué humano</a></li>
+          <li><a href="#preguntas">Preguntas</a></li>
+        </ul>
       </nav>
-      <div class="nav-actions">
-        <a href="#" class="nav-sign-in">Sign in</a>
-        <a href="#" class="btn btn-primary btn-sm">Start free trial</a>
-        <button class="nav-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
-          <span></span><span></span><span></span>
-        </button>
+      <div class="nav-right">
+        <details class="menu">
+          <summary aria-label="Abrir menú"><svg class="icon" aria-hidden="true"><use href="#i-menu"/></svg>Menú</summary>
+          <ul>
+            <li><a href="#como-funciona">Cómo funciona</a></li>
+            <li><a href="#por-que-humano">Por qué humano</a></li>
+            <li><a href="#preguntas">Preguntas</a></li>
+            <li><a href="#brief">Enviar brief</a></li>
+          </ul>
+        </details>
+        <a class="btn btn--primary btn--sm" href="#brief">Enviar brief</a>
       </div>
     </div>
-  </div>
-</nav>
+  </header>
 
-<!-- Mobile menu -->
-<div class="mobile-menu" id="mobile-menu" role="dialog" aria-label="Mobile navigation">
-  <a href="#features">Platform</a>
-  <a href="#workflows">Workflows</a>
-  <a href="#pricing">Pricing</a>
-  <a href="#security">Enterprise</a>
-  <a href="#faq">Docs</a>
-  <a href="#">Sign in</a>
-  <a href="#" class="btn btn-primary" style="margin-top:8px;justify-content:center;">Start free trial</a>
+  <main id="inicio">
+    <div class="hero">
+      <div class="wrap">
+        <h1>La voz exacta para tu marca, sin tener que buscarla.</h1>
+        <p class="sub">Producción de voz premium en español. Un productor te propone 3 voces escogidas a mano y tú apruebas la grabación: en directo con la locutora o cuando te venga bien.</p>
+        <div class="ctas">
+          <a class="btn btn--primary" href="#brief">Enviar brief</a>
+          <a class="btn btn--ghost" href="#como-funciona">Ver cómo funciona</a>
+        </div>
+        <p class="fine">Sin registros ni contraseñas: te enviamos un enlace por email.</p>
+
+        <!-- Consola: una sesión en vivo de verdad -->
+        <figure class="console" aria-label="Ejemplo de sesión en vivo: el cliente escucha mientras la locutora graba">
+          <div class="c-top">
+            <span class="rec" role="status"><i></i>En directo</span>
+            <span><strong>DEMO MERZ</strong>, spot TV de 15 s</span>
+            <span class="sp"></span>
+            <span class="rev">Toma 3, revisión 1 de 3</span>
+            <button class="anim-btn" type="button" id="anim-toggle" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="#i-pause"/></svg><span>Pausar animación</span></button>
+          </div>
+          <div class="c-body">
+            <div class="c-main">
+              <div class="tc">
+                <span class="time" id="tc" aria-hidden="true">00:00:09:12</span>
+                <span class="who">Grabando: <b>Marta V.</b>, desde su estudio</span>
+              </div>
+              <p class="script">Cuando todo cambia, hay algo que permanece. <mark>Marleen para siempre.</mark></p>
+              <div class="ruler" aria-hidden="true"><span>0:00</span><span>0:03</span><span>0:06</span><span>0:09</span><span>0:12</span><span>0:15</span></div>
+              <div class="wave"><canvas id="wave" aria-hidden="true"></canvas></div>
+              <div class="takes">
+                <span class="take"><svg class="icon" style="width:14px;height:14px"><use href="#i-play"/></svg>Toma 1 <em>0:15</em></span>
+                <span class="take"><svg class="icon" style="width:14px;height:14px"><use href="#i-play"/></svg>Toma 2 <em>0:16</em></span>
+                <span class="take take--live"><svg class="icon" style="width:14px;height:14px"><use href="#i-mic"/></svg>Toma 3 <em id="tc-take">0:09</em></span>
+              </div>
+            </div>
+            <div class="c-side">
+              <h2>Indicaciones a Marta</h2>
+              <div class="presence"><span class="av av-m" aria-hidden="true">M</span><p>Marta V.<span>Conectada, micrófono activo</span></p><span class="meter" aria-hidden="true"><b></b><b></b><b></b><b></b></span></div>
+              <div class="msgs">
+                <div class="msg"><small>Interpretativa</small>Más aire antes de «para siempre», por favor.</div>
+                <div class="msg msg--in" id="live-msg"><small>Técnica</small>Ojo: «Merz» se pronuncia «Merts».</div>
+                <p class="note-live" id="live-note">Marta lo verá. Ella decide si parar.</p>
+              </div>
+              <div class="composer" aria-hidden="true"><span>Escribe una indicación…</span><b>Enviar</b></div>
+            </div>
+          </div>
+          <figcaption class="sr-only">Vista de una sesión en vivo: el cliente oye la toma mientras se graba y deja indicaciones por chat. La locutora decide si interrumpir.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </main>
 </div>
 
-<main>
-<!-- ─── Hero ────────────────────────────────────────────────────────── -->
-<section class="hero" id="hero" aria-labelledby="hero-heading">
-  <div class="hero-bg">
-    <div class="orb orb-1" aria-hidden="true"></div>
-    <div class="orb orb-2" aria-hidden="true"></div>
-    <div class="orb orb-3" aria-hidden="true"></div>
-    <div class="hero-grid" aria-hidden="true"></div>
-  </div>
-
-  <div class="container">
-    <div class="hero-content">
-      <div class="hero-tag">
-        <span class="hero-tag-dot"></span>
-        Now in General Availability — v3.0
+<div class="light">
+  <section id="como-funciona" aria-labelledby="t-como">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="big" id="t-como">Tú decides en 3 momentos. El resto lo producimos nosotros.</h2>
+        <p>Casting, grabación, edición, control de calidad y entrega los lleva un equipo de producción. Tú solo apareces cuando hace falta tu criterio.</p>
       </div>
 
-      <h1 class="display" id="hero-heading">
-        Your studio,<br>
-        <span class="grad-text">without walls.</span>
-      </h1>
-
-      <p class="lead">
-        Hollyvooz unites clients, voice actors, sound engineers and QA teams in a single cloud platform.
-        Record, review and approve — in real time, from anywhere in the world.
-      </p>
-
-      <div class="hero-ctas">
-        <a href="#" class="btn btn-primary btn-lg">
-          Start free trial
-          <span class="arrow-icon" aria-hidden="true">→</span>
-        </a>
-        <a href="#" class="btn btn-ghost btn-lg">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.3"/>
-            <path d="M6.5 5.5l4 2.5-4 2.5V5.5z" fill="currentColor"/>
-          </svg>
-          Watch demo
-        </a>
+      <div class="tracks" role="group" aria-label="Quién hace qué en un proyecto">
+        <div class="t-ruler" aria-hidden="true"><div>Pista</div><div class="marks"><span>Inicio del proyecto</span><span>Entrega</span></div></div>
+        <div class="lane">
+          <div class="lane-name">Tú<span>3 momentos</span></div>
+          <div class="lane-area">
+            <div class="clip clip--you c1"><h3><span class="n">1</span>Envías el brief</h3><p>Tipo de pieza, duración, fecha y la voz que imaginas. Dos minutos, sin cuenta.</p></div>
+            <div class="clip clip--you c2"><h3><span class="n">2</span>Eliges entre 3 voces</h3><p>Con presupuesto cerrado y el porqué de cada una.</p></div>
+            <div class="clip clip--you c3"><h3><span class="n">3</span>Apruebas la grabación</h3><p>En directo, dirigiendo por chat, o en diferido. 3 revisiones incluidas.</p></div>
+          </div>
+        </div>
+        <div class="lane">
+          <div class="lane-name">Equipo<span>Todo lo demás</span></div>
+          <div class="lane-area">
+            <div class="clip clip--team t1"><h3>Tu productor y el equipo técnico</h3><p>Curan el casting, preparan la sesión, editan la toma aprobada, revisan la calidad y te la entregan.</p></div>
+          </div>
+        </div>
       </div>
-
-      <div class="hero-proof" aria-label="Trust indicators">
-        <span><span class="hero-proof-check" aria-hidden="true">✓</span> No credit card required</span>
-        <span><span class="hero-proof-check" aria-hidden="true">✓</span> GDPR &amp; SOC 2 compliant</span>
-        <span><span class="hero-proof-check" aria-hidden="true">✓</span> 14-day free trial</span>
-      </div>
+      <p class="after"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>La entrega llega al mismo enlace del proyecto: archivos finales en WAV y MP3, sin adjuntos perdidos en el correo.</p>
     </div>
+  </section>
 
-    <!-- Studio Preview Mockup -->
-    <div class="studio-window" role="img" aria-label="Hollyvooz Studio interface preview showing a live dubbing session">
-      <!-- Chrome bar -->
-      <div class="window-chrome">
-        <div class="chrome-dots" aria-hidden="true">
-          <span></span><span></span><span></span>
-        </div>
-        <div class="chrome-url">studio.hollyvooz.com / Nike_FW26_Global / EN Dubbing</div>
-        <div class="chrome-session-badge">
-          <span class="rec-dot" aria-hidden="true"></span>
-          <span>REC &nbsp;02:47</span>
-        </div>
-      </div>
-
-      <!-- Studio body -->
-      <div class="studio-body">
-        <!-- Participants sidebar -->
-        <div class="studio-sidebar" aria-label="Session participants">
-          <div class="sidebar-label">Session · 4 live</div>
-          <div class="participant">
-            <div class="avatar avatar-purple" aria-hidden="true">SR</div>
-            <div class="participant-info">
-              <div class="participant-name">Sofia R.</div>
-              <div class="participant-role">Voice Actor</div>
-            </div>
-            <div class="status-dot status-rec" title="Recording"></div>
-          </div>
-          <div class="participant">
-            <div class="avatar avatar-cyan" aria-hidden="true">AM</div>
-            <div class="participant-info">
-              <div class="participant-name">Alex M.</div>
-              <div class="participant-role">Art Director</div>
-            </div>
-            <div class="status-dot status-watch" title="Watching"></div>
-          </div>
-          <div class="participant">
-            <div class="avatar avatar-green" aria-hidden="true">JK</div>
-            <div class="participant-info">
-              <div class="participant-name">James K.</div>
-              <div class="participant-role">Engineer</div>
-            </div>
-            <div class="status-dot status-active" title="Monitoring"></div>
-          </div>
-          <div class="participant">
-            <div class="avatar avatar-amber" aria-hidden="true">ML</div>
-            <div class="participant-info">
-              <div class="participant-name">Maria L.</div>
-              <div class="participant-role">QA Specialist</div>
-            </div>
-            <div class="status-dot status-active" title="Reviewing"></div>
-          </div>
-        </div>
-
-        <!-- Waveform tracks -->
-        <div class="studio-tracks" aria-label="Recording tracks">
-          <div class="track-row">
-            <div class="track-header">
-              <span class="track-name">SOFIA R. — VOICE ACTOR</span>
-              <span class="track-lang">EN-US</span>
-              <span class="badge badge-brand" style="font-size:10px;padding:2px 8px;">● REC</span>
-            </div>
-            <div class="waveform" aria-label="Active recording waveform" id="waveform-main">
-              <!-- Generated by JS -->
-            </div>
-            <div class="track-time">02:47.312</div>
-          </div>
-          <div class="track-row">
-            <div class="track-header">
-              <span class="track-name">ALEX M. — DIRECTOR</span>
-              <span class="badge badge-cyan" style="font-size:10px;padding:2px 8px;">Watching</span>
-            </div>
-            <div class="waveform" aria-label="Director monitoring waveform" id="waveform-dir">
-            </div>
-          </div>
-          <div class="track-row">
-            <div class="track-header">
-              <span class="track-name">JAMES K. — ENGINEER MIX</span>
-              <span class="badge badge-green" style="font-size:10px;padding:2px 8px;">−3.2 dB</span>
-            </div>
-            <div class="waveform" aria-label="Engineer monitoring waveform" id="waveform-eng">
-            </div>
-          </div>
-
-          <!-- Takes row -->
-          <div class="takes-row">
-            <span style="font-size:11px;font-weight:600;color:var(--text-3);margin-right:8px;">Takes:</span>
-            <span class="take-pill done"><span class="take-check">✓</span> Take 1</span>
-            <span class="take-pill done"><span class="take-check">✓</span> Take 2</span>
-            <span class="take-pill active"><span class="rec-dot" style="width:6px;height:6px;"></span> Take 3</span>
-          </div>
-        </div>
-
-        <!-- Comments panel -->
-        <div class="studio-comments">
-          <div class="comments-header">Live Comments</div>
-          <div class="comment-list">
-            <div class="comment-item">
-              <div class="comment-avatar avatar-cyan" style="width:24px;height:24px;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;border-radius:50%;background:linear-gradient(135deg,#0891B2,#22D3EE);color:#fff;">AM</div>
-              <div class="comment-body">
-                <div class="comment-meta">
-                  <span class="comment-author">Alex M.</span>
-                  <span class="comment-time">2m ago</span>
-                </div>
-                <div class="comment-text">Love the pace on Take 3 🎙️ keep going</div>
-              </div>
-            </div>
-            <div class="comment-item">
-              <div class="comment-avatar" style="width:24px;height:24px;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;border-radius:50%;background:linear-gradient(135deg,#059669,#10B981);color:#fff;">JK</div>
-              <div class="comment-body">
-                <div class="comment-meta">
-                  <span class="comment-author">James K.</span>
-                  <span class="comment-time">1m ago</span>
-                </div>
-                <div class="comment-text">Slight breath at 0:12 — can we punch-in?</div>
-              </div>
-            </div>
-            <div class="comment-item">
-              <div class="comment-avatar" style="width:24px;height:24px;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;border-radius:50%;background:linear-gradient(135deg,#D97706,#F59E0B);color:#fff;">ML</div>
-              <div class="comment-body">
-                <div class="comment-meta">
-                  <span class="comment-author">Maria L.</span>
-                  <span class="comment-time">just now</span>
-                </div>
-                <div class="comment-text approved">✓ Approved — final cut!</div>
-              </div>
-            </div>
-          </div>
-          <div class="comment-input-row">
-            <input class="comment-input" type="text" placeholder="Add a comment…" aria-label="Add comment" />
-          </div>
-        </div>
-      </div>
-
-      <!-- Controls bar -->
-      <div class="studio-controls">
-        <div class="ctrl-group">
-          <button class="ctrl-btn" aria-label="Skip back">◀◀</button>
-          <button class="ctrl-btn" aria-label="Play">▶</button>
-          <button class="ctrl-btn" aria-label="Skip forward">▶▶</button>
-          <button class="ctrl-btn record" aria-label="Record">⏺ REC</button>
-          <button class="ctrl-btn approve" aria-label="Approve take">✓ Approve</button>
-        </div>
-        <div class="ctrl-meta">
-          <span><span class="meta-dot" aria-hidden="true"></span> HD · 48kHz / 24-bit</span>
-          <span>💬 3 comments</span>
-          <span>🌐 EN → ES, FR, DE +5</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ─── Logos ────────────────────────────────────────────────────────── -->
-<section class="logos-section" aria-labelledby="logos-heading">
-  <div class="container">
-    <p class="logos-label" id="logos-heading">Trusted by production teams at leading global brands</p>
-    <div class="logos-track">
-      <span class="logo-item">BBDO</span>
-      <span class="logo-item">Ogilvy</span>
-      <span class="logo-item">DDB Latina</span>
-      <span class="logo-item">JWT</span>
-      <span class="logo-item">Havas</span>
-      <span class="logo-item">Leo Burnett</span>
-      <span class="logo-item">Grey Group</span>
-      <span class="logo-item">McCann</span>
-    </div>
-  </div>
-</section>
-
-<!-- ─── Features ─────────────────────────────────────────────────────── -->
-<section class="section" id="features" aria-labelledby="features-heading">
-  <div class="container">
-    <div class="section-header fade-up">
-      <span class="section-tag">Platform</span>
-      <h2 class="h2" id="features-heading">
-        Everything your studio needs,<br>
-        <span class="grad-text">in one cloud platform.</span>
-      </h2>
-      <p class="lead" style="margin-top:16px;">
-        Purpose-built for professional voice production. Not a generic collaboration tool repurposed for audio — a ground-up rethink of how dubbing workflows should operate.
-      </p>
-    </div>
-
-    <div class="features-grid">
-      <!-- Large featured card -->
-      <div class="feat-card feat-large fade-up">
-        <div class="feat-card-glow glow-purple" aria-hidden="true"></div>
-        <div>
-          <div class="feat-icon feat-icon-purple" aria-hidden="true">🎙️</div>
-          <h3 class="feat-title">Real-Time Remote Sessions</h3>
-          <p class="feat-desc">
-            Record with your team as if you were in the same studio — regardless of continent. Hollyvooz's adaptive codec delivers broadcast-quality audio with latency under 80ms, even on standard internet connections.
-          </p>
-          <div style="margin-top:20px;">
-            <span class="badge badge-brand">Zero-latency compensation</span>
-          </div>
-        </div>
-        <div class="feat-visual" aria-hidden="true">
-          <div class="feat-track">
-            <span class="feat-track-label">VO 1</span>
-            <div class="feat-waveform" id="feat-wave-1"></div>
-          </div>
-          <div class="feat-track">
-            <span class="feat-track-label">DIR</span>
-            <div class="feat-waveform" id="feat-wave-2"></div>
-          </div>
-          <div class="feat-track">
-            <span class="feat-track-label">MIX</span>
-            <div class="feat-waveform" id="feat-wave-3"></div>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;margin-top:8px;">
-            <span class="badge badge-green" style="font-size:10px;">● 4 online</span>
-            <span style="font-size:11px;color:var(--text-3);">Latency: 62ms · São Paulo → London</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="feat-card fade-up delay-1">
-        <div class="feat-card-glow glow-cyan" aria-hidden="true"></div>
-        <div class="feat-icon feat-icon-cyan" aria-hidden="true">☁️</div>
-        <h3 class="feat-title">Cloud Archive</h3>
-        <p class="feat-desc">
-          Every take, every version, stored securely with unlimited retention. Retrieve, compare and restore any recording from any session with one click.
-        </p>
-      </div>
-
-      <div class="feat-card fade-up delay-2">
-        <div class="feat-icon feat-icon-green" aria-hidden="true">🤖</div>
-        <h3 class="feat-title">AI-Powered QA</h3>
-        <p class="feat-desc">
-          Automated quality checks scan every take for background noise, clipping, mouth sounds and off-script deviations — before it ever reaches the director.
-        </p>
-      </div>
-
-      <div class="feat-card fade-up delay-1">
-        <div class="feat-icon feat-icon-amber" aria-hidden="true">🌍</div>
-        <h3 class="feat-title">Multi-Language Dubbing</h3>
-        <p class="feat-desc">
-          Manage campaigns across 60+ languages from a single dashboard. Parallel workflows, per-language QA and unified delivery in one place.
-        </p>
-      </div>
-
-      <div class="feat-card fade-up delay-2">
-        <div class="feat-icon feat-icon-purple" aria-hidden="true">👥</div>
-        <h3 class="feat-title">Role-Based Studio</h3>
-        <p class="feat-desc">
-          Each collaborator sees exactly what they need. Clients review. Engineers mix. Actors perform. QA approves. No clutter, no confusion.
-        </p>
-      </div>
-
-      <div class="feat-card fade-up delay-3">
-        <div class="feat-icon feat-icon-cyan" aria-hidden="true">🔒</div>
-        <h3 class="feat-title">Enterprise Security</h3>
-        <p class="feat-desc">
-          SOC 2 Type II certified. AES-256 encryption at rest and in transit. Private cloud deployment available. Your IP stays yours.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ─── Workflows ─────────────────────────────────────────────────────── -->
-<section class="section bg-surface" id="workflows" aria-labelledby="workflows-heading">
-  <div class="container">
-    <div class="section-header fade-up">
-      <span class="section-tag">Workflows</span>
-      <h2 class="h2" id="workflows-heading">
-        Every role, perfectly supported.
-      </h2>
-      <p class="lead" style="margin-top:16px;">
-        Hollyvooz is built around the real humans in your production chain — not a one-size-fits-all dashboard.
-      </p>
-    </div>
-
-    <div class="workflows-grid">
-      <div class="workflow-card fade-up">
-        <div class="workflow-number">01</div>
-        <div class="workflow-role">Client · Brand Manager</div>
-        <h3 class="workflow-title">Review without the back-and-forth.</h3>
-        <p class="workflow-desc">Upload your brief, watch sessions live or review recordings asynchronously. Leave timestamped comments and approve takes — no email threads, no shared drives.</p>
-        <div class="workflow-steps">
-          <div class="workflow-step"><span class="step-check" aria-hidden="true">✓</span> Upload brief &amp; script</div>
-          <div class="workflow-step"><span class="step-check" aria-hidden="true">✓</span> Watch live or on-demand</div>
-          <div class="workflow-step"><span class="step-check" aria-hidden="true">✓</span> Approve takes with one click</div>
-        </div>
-      </div>
-      <div class="workflow-card fade-up delay-1">
-        <div class="workflow-number">02</div>
-        <div class="workflow-role">Voice Actor · Talent</div>
-        <h3 class="workflow-title">Just perform. We handle the rest.</h3>
-        <p class="workflow-desc">See the script, hear the reference, join the session from any browser. No software to install, no technical setup. Professional-grade recording from your home studio.</p>
-        <div class="workflow-steps">
-          <div class="workflow-step"><span class="step-check" aria-hidden="true">✓</span> Read script with cue marks</div>
-          <div class="workflow-step"><span class="step-check" aria-hidden="true">✓</span> Record in HD from anywhere</div>
-          <div class="workflow-step"><span class="step-check" aria-hidden="true">✓</span> Review your takes instantly</div>
-        </div>
-      </div>
-      <div class="workflow-card fade-up delay-2">
-        <div class="workflow-number">03</div>
-        <div class="workflow-role">Sound Engineer · Mix</div>
-        <h3 class="workflow-title">Full control of every session.</h3>
-        <p class="workflow-desc">Monitor input levels, apply real-time processing, set punch-in markers and export multi-track stems — all without leaving the browser.</p>
-        <div class="workflow-steps">
-          <div class="workflow-step"><span class="step-check" aria-hidden="true">✓</span> Monitor &amp; process in real time</div>
-          <div class="workflow-step"><span class="step-check" aria-hidden="true">✓</span> Set punch-in points</div>
-          <div class="workflow-step"><span class="step-check" aria-hidden="true">✓</span> Export multi-track stems</div>
-        </div>
-      </div>
-      <div class="workflow-card fade-up delay-3">
-        <div class="workflow-number">04</div>
-        <div class="workflow-role">QA Specialist · Quality</div>
-        <h3 class="workflow-title">Ship quality, not just speed.</h3>
-        <p class="workflow-desc">AI pre-screens every take for technical issues. Your team validates content accuracy, lip-sync timing and brand standards — then signs off with a digital audit trail.</p>
-        <div class="workflow-steps">
-          <div class="workflow-step"><span class="step-check" aria-hidden="true">✓</span> AI pre-screening report</div>
-          <div class="workflow-step"><span class="step-check" aria-hidden="true">✓</span> Lip-sync validation tools</div>
-          <div class="workflow-step"><span class="step-check" aria-hidden="true">✓</span> Full audit trail on approval</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ─── Product CTA strip ──────────────────────────────────────────────── -->
-<section class="section-sm" style="border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
-  <div class="container">
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;">
+  <section id="por-que-humano" class="human" aria-labelledby="t-humano">
+    <div class="wrap human-grid">
       <div>
-        <h2 class="h3" style="margin-bottom:8px;">Ready to see it in action?</h2>
-        <p class="lead" style="font-size:16px;">Book a 20-minute product tour with a voice production specialist.</p>
+        <h2 class="big" id="t-humano">Para cuando la voz no puede sonar a máquina.</h2>
+        <p>Las voces sintéticas sirven para mucho. Pero cuando una pieza tiene que emocionar, convencer o representar a tu marca, hace falta alguien que interprete y alguien que dirija.</p>
+        <div class="casting" role="group" aria-label="Ejemplo de casting curado">
+          <p>Así llega tu casting:</p>
+          <div class="voice"><span class="av av-l" aria-hidden="true">L</span><span class="meta"><b>Lucía R.</b><span>Cálida y cercana</span></span><button class="play" type="button" aria-pressed="false" aria-label="Escuchar demo de Lucía R."><svg class="icon"><use href="#i-play"/></svg></button></div>
+          <div class="voice voice--rec"><span class="av av-m" aria-hidden="true">M</span><span class="meta"><b>Marta V.</b><span class="why">Recomendada: calidez con autoridad, como pide tu brief</span></span><button class="play" type="button" aria-pressed="false" aria-label="Escuchar demo de Marta V."><svg class="icon"><use href="#i-play"/></svg></button></div>
+          <div class="voice"><span class="av av-c" aria-hidden="true">C</span><span class="meta"><b>Carmen T.</b><span>Grave y sofisticada</span></span><button class="play" type="button" aria-pressed="false" aria-label="Escuchar demo de Carmen T."><svg class="icon"><use href="#i-play"/></svg></button></div>
+        </div>
       </div>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;">
-        <a href="#" class="btn btn-primary btn-lg">Book a demo</a>
-        <a href="#" class="btn btn-ghost btn-lg">Explore docs <span class="arrow-icon">→</span></a>
-      </div>
+      <ul class="reasons">
+        <li><span class="ic ic--cur"><svg class="icon" aria-hidden="true"><use href="#i-headphones"/></svg></span><div><h3>Criterio de dirección</h3><p>Un productor que conoce el oficio elige las voces y cuida cada toma. No filtras cientos de perfiles: recibes una propuesta.</p></div></li>
+        <li><span class="ic"><svg class="icon" aria-hidden="true"><use href="#i-mic"/></svg></span><div><h3>Voces profesionales con estudio verificado</h3><p>Locutores y actores de doblaje que graban en su estudio, revisado por nuestros técnicos antes de entrar al equipo. Grabación local a calidad de emisión.</p></div></li>
+        <li><span class="ic"><svg class="icon" aria-hidden="true"><use href="#i-user"/></svg></span><div><h3>Una persona responsable</h3><p>El mismo productor te acompaña de principio a fin. Si algo no te encaja, sabes a quién decírselo.</p></div></li>
+      </ul>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ─── Pricing ───────────────────────────────────────────────────────── -->
-<section class="section" id="pricing" aria-labelledby="pricing-heading">
-  <div class="container">
-    <div class="section-header fade-up">
-      <span class="section-tag">Pricing</span>
-      <h2 class="h2" id="pricing-heading">Transparent pricing for teams of every size.</h2>
-      <p class="lead" style="margin-top:16px;">Start free. Scale when you're ready. No per-minute charges, no hidden fees.</p>
-    </div>
-
-    <div class="pricing-toggle-wrap">
-      <span class="pricing-toggle-label">Monthly</span>
-      <label class="toggle-switch" aria-label="Toggle annual billing">
-        <input type="checkbox" id="pricing-toggle" />
-        <span class="toggle-slider"></span>
-      </label>
-      <span class="pricing-toggle-label">Annual <span class="save-badge">Save 20%</span></span>
-    </div>
-
-    <div class="pricing-grid" id="pricing-grid">
-      <!-- Starter -->
-      <div class="pricing-card fade-up">
-        <div class="plan-name">Starter</div>
-        <div class="plan-price price-monthly"><span class="price-currency">$</span><span class="price-amount">99</span><span class="price-period">/mo</span></div>
-        <div class="plan-price price-annual"><span class="price-currency">$</span><span class="price-amount">79</span><span class="price-period">/mo</span></div>
-        <p class="plan-desc">For small studios and independent producers getting started with remote voice production.</p>
-        <div class="plan-divider"></div>
-        <ul class="plan-features" aria-label="Starter plan features">
-          <li class="plan-feature"><span class="plan-feature-check check-brand" aria-hidden="true">✓</span> Up to 5 team members</li>
-          <li class="plan-feature"><span class="plan-feature-check check-brand" aria-hidden="true">✓</span> 20 hours/month cloud recording</li>
-          <li class="plan-feature"><span class="plan-feature-check check-brand" aria-hidden="true">✓</span> HD audio · 48kHz / 24-bit</li>
-          <li class="plan-feature"><span class="plan-feature-check check-brand" aria-hidden="true">✓</span> Real-time collaboration</li>
-          <li class="plan-feature"><span class="plan-feature-check check-brand" aria-hidden="true">✓</span> 30-day cloud archive</li>
-          <li class="plan-feature"><span class="plan-feature-check check-muted" aria-hidden="true">—</span> <span style="color:var(--text-3)">AI Quality Check</span></li>
-          <li class="plan-feature"><span class="plan-feature-check check-muted" aria-hidden="true">—</span> <span style="color:var(--text-3)">Multi-language dashboard</span></li>
+  <section id="brief" aria-labelledby="t-brief">
+    <div class="wrap brief-grid">
+      <div>
+        <h2 class="big" id="t-brief">Cuéntanos tu proyecto.</h2>
+        <p>Recibes un casting de 3 voces con presupuesto cerrado. Si algo del brief no está claro, tu productor te escribe antes.</p>
+        <ul class="next">
+          <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Te llega un enlace a tu email: es tu acceso al proyecto.</li>
+          <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Desde ese enlace eliges voz, apruebas y descargas.</li>
+          <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Si repites, puedes crear una cuenta. Es opcional.</li>
         </ul>
-        <a href="#" class="btn btn-ghost" style="width:100%;justify-content:center;">Get started free</a>
       </div>
 
-      <!-- Professional (Featured) -->
-      <div class="pricing-card featured fade-up delay-1">
-        <div class="popular-badge">Most popular</div>
-        <div class="plan-name">Professional</div>
-        <div class="plan-price price-monthly"><span class="price-currency">$</span><span class="price-amount">299</span><span class="price-period">/mo</span></div>
-        <div class="plan-price price-annual"><span class="price-currency">$</span><span class="price-amount">239</span><span class="price-period">/mo</span></div>
-        <p class="plan-desc">For agencies and studios running multiple campaigns across languages and markets.</p>
-        <div class="plan-divider"></div>
-        <ul class="plan-features" aria-label="Professional plan features">
-          <li class="plan-feature"><span class="plan-feature-check check-brand" aria-hidden="true">✓</span> Up to 25 team members</li>
-          <li class="plan-feature"><span class="plan-feature-check check-brand" aria-hidden="true">✓</span> 200 hours/month cloud recording</li>
-          <li class="plan-feature"><span class="plan-feature-check check-brand" aria-hidden="true">✓</span> HD audio · 96kHz / 32-bit float</li>
-          <li class="plan-feature"><span class="plan-feature-check check-brand" aria-hidden="true">✓</span> Unlimited cloud archive</li>
-          <li class="plan-feature"><span class="plan-feature-check check-brand" aria-hidden="true">✓</span> AI Quality Check &amp; reporting</li>
-          <li class="plan-feature"><span class="plan-feature-check check-brand" aria-hidden="true">✓</span> Multi-language dashboard (60+ langs)</li>
-          <li class="plan-feature"><span class="plan-feature-check check-brand" aria-hidden="true">✓</span> Custom branding &amp; client portals</li>
-        </ul>
-        <a href="#" class="btn btn-primary" style="width:100%;justify-content:center;">Start 14-day trial</a>
-      </div>
+      <div class="sheet">
+        <div class="sheet-top"><b>Nuevo proyecto</b><code>brief.v1</code></div>
+        <form id="form-brief" novalidate>
+          <fieldset>
+            <legend>Tipo de pieza</legend>
+            <div class="chips">
+              <input type="radio" name="tipo" id="t1" value="Spot TV" checked><label for="t1">Spot TV</label>
+              <input type="radio" name="tipo" id="t2" value="Cuña de radio"><label for="t2">Cuña de radio</label>
+              <input type="radio" name="tipo" id="t3" value="Vídeo corporativo"><label for="t3">Vídeo corporativo</label>
+              <input type="radio" name="tipo" id="t4" value="E-learning"><label for="t4">E-learning</label>
+              <input type="radio" name="tipo" id="t5" value="Audiolibro"><label for="t5">Audiolibro</label>
+              <input type="radio" name="tipo" id="t6" value="Podcast"><label for="t6">Podcast</label>
+              <input type="radio" name="tipo" id="t7" value="Otro"><label for="t7">Otro</label>
+            </div>
+          </fieldset>
+          <div class="row2">
+            <div><label for="duracion">Duración aproximada <span style="font-weight:400;color:var(--text-2)">(opcional)</span></label><input type="text" id="duracion" name="duracion" placeholder="Ej.: 20 segundos"></div>
+            <div><label for="fecha">Fecha de entrega <span style="font-weight:400;color:var(--text-2)">(opcional)</span></label><input type="date" id="fecha" name="fecha"></div>
+          </div>
+          <div>
+            <label for="voz">¿Qué voz imaginas? <span style="font-weight:400;color:var(--text-2)">(opcional)</span></label>
+            <p class="hint" id="voz-hint">No hace falta saber de locución: tu productor lo traduce.</p>
+            <textarea id="voz" name="voz" aria-describedby="voz-hint" placeholder="Edad, tono, acento, a quién le hablas…"></textarea>
+          </div>
+          <div>
+            <label for="email">Tu email</label>
+            <p class="error" id="email-err" aria-live="polite" hidden><svg class="icon" style="width:16px;height:16px"><use href="#i-alert"/></svg><span></span></p>
+            <input type="email" id="email" name="email" autocomplete="email" required aria-describedby="email-err" placeholder="nombre@empresa.com">
+          </div>
+          <div class="submit-row">
+            <button class="btn btn--primary" type="submit">Enviar brief</button>
+            <p>Puedes adjuntar guion y vídeo después, desde tu enlace.</p>
+          </div>
+        </form>
 
-      <!-- Enterprise -->
-      <div class="pricing-card fade-up delay-2">
-        <div class="plan-name">Enterprise</div>
-        <div class="plan-price"><span class="price-amount" style="font-size:36px;">Custom</span></div>
-        <p class="plan-desc">For global networks and broadcast groups with bespoke infrastructure, compliance and SLA requirements.</p>
-        <div class="plan-divider"></div>
-        <ul class="plan-features" aria-label="Enterprise plan features">
-          <li class="plan-feature"><span class="plan-feature-check check-brand" aria-hidden="true">✓</span> Unlimited team members</li>
-          <li class="plan-feature"><span class="plan-feature-check check-brand" aria-hidden="true">✓</span> Unlimited recording &amp; storage</li>
-          <li class="plan-feature"><span class="plan-feature-check check-brand" aria-hidden="true">✓</span> Private cloud deployment</li>
-          <li class="plan-feature"><span class="plan-feature-check check-brand" aria-hidden="true">✓</span> SSO / SAML 2.0</li>
-          <li class="plan-feature"><span class="plan-feature-check check-brand" aria-hidden="true">✓</span> 99.99% uptime SLA</li>
-          <li class="plan-feature"><span class="plan-feature-check check-brand" aria-hidden="true">✓</span> Dedicated Customer Success</li>
-          <li class="plan-feature"><span class="plan-feature-check check-brand" aria-hidden="true">✓</span> Security audit &amp; pen-test support</li>
-        </ul>
-        <a href="#" class="btn btn-outline" style="width:100%;justify-content:center;">Contact sales <span class="arrow-icon">→</span></a>
+        <div class="done" id="done" hidden tabindex="-1">
+          <span class="ok"><svg class="icon" style="width:16px;height:16px" aria-hidden="true"><use href="#i-check"/></svg>Brief enviado</span>
+          <h3>Revisa tu email.</h3>
+          <p>Te hemos enviado un enlace a <strong id="done-email"></strong>. Desde ahí verás tu casting en cuanto esté listo.</p>
+          <p class="demo">Versión demo del caso de estudio: este formulario no envía datos a ningún sitio.</p>
+          <button class="btn btn--outline btn--sm" type="button" id="again">Enviar otro brief</button>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ─── Testimonials ──────────────────────────────────────────────────── -->
-<section class="section bg-surface" id="testimonials" aria-labelledby="testimonials-heading">
-  <div class="container">
-    <div class="section-header fade-up">
-      <span class="section-tag">Testimonials</span>
-      <h2 class="h2" id="testimonials-heading">Loved by the people who make great audio.</h2>
-    </div>
-    <div class="testi-grid">
-      <div class="testi-card fade-up">
-        <div class="testi-stars" aria-label="5 stars">★★★★★</div>
-        <p class="testi-quote">"Hollyvooz cut our dubbing turnaround from <strong>two weeks to three days.</strong> Our clients noticed immediately — and started giving us more projects."</p>
-        <div class="testi-author">
-          <div class="testi-avatar avatar-purple" aria-hidden="true">EF</div>
-          <div>
-            <div class="testi-name">Emilia F.</div>
-            <div class="testi-title-text">Head of Production · MediaGlobal</div>
-          </div>
-        </div>
-      </div>
-      <div class="testi-card fade-up delay-1">
-        <div class="testi-stars" aria-label="5 stars">★★★★★</div>
-        <p class="testi-quote">"Our voice actors genuinely love it. The audio quality is <strong>indistinguishable from a physical studio</strong> — even our most discerning talents agree."</p>
-        <div class="testi-author">
-          <div class="testi-avatar avatar-cyan" aria-hidden="true">MT</div>
-          <div>
-            <div class="testi-name">Marcus T.</div>
-            <div class="testi-title-text">Audio Director · BBDO</div>
-          </div>
-        </div>
-      </div>
-      <div class="testi-card fade-up delay-2">
-        <div class="testi-stars" aria-label="5 stars">★★★★★</div>
-        <p class="testi-quote">"We manage <strong>40+ language versions per campaign.</strong> Hollyvooz made this possible for a five-person localization team. It's genuinely transformative."</p>
-        <div class="testi-author">
-          <div class="testi-avatar avatar-green" aria-hidden="true">AR</div>
-          <div>
-            <div class="testi-name">Ana R.</div>
-            <div class="testi-title-text">Localization Lead · Spotify Studios</div>
-          </div>
-        </div>
-      </div>
-      <div class="testi-card fade-up">
-        <div class="testi-stars" aria-label="5 stars">★★★★★</div>
-        <p class="testi-quote">"The real-time review feature alone <strong>saved us three rounds of feedback.</strong> Our clients are happier, and our team is less stressed."</p>
-        <div class="testi-author">
-          <div class="testi-avatar avatar-amber" aria-hidden="true">JK</div>
-          <div>
-            <div class="testi-name">James K.</div>
-            <div class="testi-title-text">Executive Producer · JWT</div>
-          </div>
-        </div>
-      </div>
-      <div class="testi-card fade-up delay-1">
-        <div class="testi-stars" aria-label="5 stars">★★★★★</div>
-        <p class="testi-quote">"Enterprise security was non-negotiable for us. <strong>Hollyvooz passed our full security audit in 48 hours.</strong> No other vendor came close."</p>
-        <div class="testi-author">
-          <div class="testi-avatar" style="background:linear-gradient(135deg,#7C3AED,#22D3EE);" aria-hidden="true">PL</div>
-          <div>
-            <div class="testi-name">Priya L.</div>
-            <div class="testi-title-text">CTO · VoiceFirst Studios</div>
-          </div>
-        </div>
-      </div>
-      <div class="testi-card fade-up delay-2">
-        <div class="testi-stars" aria-label="5 stars">★★★★★</div>
-        <p class="testi-quote">"We started using Hollyvooz during lockdown out of necessity. <strong>Three years later, we'll never go back</strong> to a physical studio-only workflow."</p>
-        <div class="testi-author">
-          <div class="testi-avatar" style="background:linear-gradient(135deg,#DC2626,#F87171);" aria-hidden="true">CM</div>
-          <div>
-            <div class="testi-name">Carlos M.</div>
-            <div class="testi-title-text">Creative Director · DDB Latina</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ─── Security ──────────────────────────────────────────────────────── -->
-<section class="section" id="security" aria-labelledby="security-heading">
-  <div class="container">
-    <div class="section-header fade-up">
-      <span class="section-tag">Enterprise</span>
-      <h2 class="h2" id="security-heading">Built for the security requirements of global enterprises.</h2>
-      <p class="lead" style="margin-top:16px;">Your voice recordings, scripts and client data are among your most sensitive IP. We protect them accordingly.</p>
-    </div>
-    <div class="security-grid fade-up">
-      <div class="security-card">
-        <div class="security-icon" aria-hidden="true">🛡️</div>
-        <div class="security-title">SOC 2 Type II</div>
-        <div class="security-desc">Independently audited security controls, renewed annually.</div>
-      </div>
-      <div class="security-card">
-        <div class="security-icon" aria-hidden="true">🔐</div>
-        <div class="security-title">AES-256 Encryption</div>
-        <div class="security-desc">End-to-end encryption at rest and in transit. Always on.</div>
-      </div>
-      <div class="security-card">
-        <div class="security-icon" aria-hidden="true">🇪🇺</div>
-        <div class="security-title">GDPR Compliant</div>
-        <div class="security-desc">EU data residency options available. DPA on request.</div>
-      </div>
-      <div class="security-card">
-        <div class="security-icon" aria-hidden="true">🏢</div>
-        <div class="security-title">Private Cloud</div>
-        <div class="security-desc">Deploy to your own VPC. Zero shared infrastructure.</div>
-      </div>
-    </div>
-    <div class="security-cta-bar fade-up">
-      <div class="security-stat">
-        <div class="security-stat-num">99.99%</div>
-        <div class="security-stat-label">Uptime SLA</div>
-      </div>
-      <div style="width:1px;height:48px;background:var(--border);flex-shrink:0;"></div>
-      <div class="security-stat">
-        <div class="security-stat-num">500+</div>
-        <div class="security-stat-label">Studios worldwide</div>
-      </div>
-      <div style="width:1px;height:48px;background:var(--border);flex-shrink:0;"></div>
-      <div class="security-stat">
-        <div class="security-stat-num">40+</div>
-        <div class="security-stat-label">Countries</div>
-      </div>
-      <div style="width:1px;height:48px;background:var(--border);flex-shrink:0;"></div>
-      <div class="security-stat">
-        <div class="security-stat-num">60+</div>
-        <div class="security-stat-label">Languages supported</div>
-      </div>
-      <div style="width:1px;height:48px;background:var(--border);flex-shrink:0;"></div>
+  <section id="preguntas" aria-labelledby="t-faq" style="padding-top:0">
+    <div class="wrap faq-grid">
+      <h2 class="big" id="t-faq">Lo que suelen preguntarnos.</h2>
       <div>
-        <a href="#" class="btn btn-outline">Read security whitepaper <span class="arrow-icon">→</span></a>
+        <details><summary>¿Puedo escuchar la grabación en directo?<svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg></summary><p>Sí. Si eliges la sesión en vivo, te conectas con la locutora y le das indicaciones por chat. Lo que oyes es una previsualización; la toma final se graba en su estudio a calidad de emisión.</p></details>
+        <details><summary>¿Qué cuenta como una revisión?<svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg></summary><p>Cada toma nueva que pides tú. Las repeticiones que hace la locutora por su cuenta o un corte de conexión no cuentan.</p></details>
+        <details><summary>¿Y si ninguna de las 3 voces me convence?<svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg></summary><p>Díselo a tu productor desde el enlace. Te propone otra terna ajustando el brief.</p></details>
+        <details><summary>Soy locutor o locutora. ¿Cómo entro en el equipo?<svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg></summary><p>Trabajamos con voces profesionales con estudio propio, que nuestros técnicos revisan antes de entrar. El reparto de encargos es visible para todo el equipo. La convocatoria abrirá próximamente.</p></details>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+</div>
 
-<!-- ─── FAQ ────────────────────────────────────────────────────────────── -->
-<section class="section bg-surface" id="faq" aria-labelledby="faq-heading">
-  <div class="container">
-    <div class="section-header fade-up">
-      <span class="section-tag">FAQ</span>
-      <h2 class="h2" id="faq-heading">Everything you need to know.</h2>
-    </div>
-    <div class="faq-list fade-up" role="list">
-
-      <div class="faq-item" role="listitem">
-        <button class="faq-q" aria-expanded="false">
-          What types of projects is Hollyvooz designed for?
-          <span class="faq-icon" aria-hidden="true">+</span>
-        </button>
-        <div class="faq-a" role="region">
-          <p class="faq-a-inner">Hollyvooz is purpose-built for professional voice production — including advertising voice-over, TV and film dubbing, audiobook recording, corporate narration, video game dialogue, and e-learning content. Any workflow where multiple stakeholders need to collaborate on voice recordings remotely is a perfect fit.</p>
-        </div>
-      </div>
-
-      <div class="faq-item" role="listitem">
-        <button class="faq-q" aria-expanded="false">
-          How does real-time remote recording work technically?
-          <span class="faq-icon" aria-hidden="true">+</span>
-        </button>
-        <div class="faq-a" role="region">
-          <p class="faq-a-inner">Hollyvooz uses a proprietary adaptive codec optimized for voice frequencies, combined with WebRTC infrastructure across 18 global edge nodes. Voice actors record locally at full quality; a lossless stream is transmitted to all participants simultaneously. The recorded file is always the local, uncompressed source — never the streamed version.</p>
-        </div>
-      </div>
-
-      <div class="faq-item" role="listitem">
-        <button class="faq-q" aria-expanded="false">
-          What audio quality can I expect?
-          <span class="faq-icon" aria-hidden="true">+</span>
-        </button>
-        <div class="faq-a" role="region">
-          <p class="faq-a-inner">Recordings are captured at up to 96kHz / 32-bit float on Professional and Enterprise plans — broadcast and streaming platform ready. The listening stream for directors and clients is delivered at 48kHz / 16-bit with &lt;80ms end-to-end latency. We support all standard export formats: WAV, AIFF, FLAC, MP3, and AAC.</p>
-        </div>
-      </div>
-
-      <div class="faq-item" role="listitem">
-        <button class="faq-q" aria-expanded="false">
-          Can Hollyvooz integrate with my existing DAW?
-          <span class="faq-icon" aria-hidden="true">+</span>
-        </button>
-        <div class="faq-a" role="region">
-          <p class="faq-a-inner">Yes. Hollyvooz exports multi-track stems that are compatible with Pro Tools, Logic Pro, Avid, Reaper, and any DAW that accepts WAV or AIFF. We also offer a plugin for Pro Tools and Logic Pro that allows direct import of Hollyvooz sessions. REST API and webhook integrations are available on Professional and Enterprise plans.</p>
-        </div>
-      </div>
-
-      <div class="faq-item" role="listitem">
-        <button class="faq-q" aria-expanded="false">
-          How does the voice talent marketplace work?
-          <span class="faq-icon" aria-hidden="true">+</span>
-        </button>
-        <div class="faq-a" role="region">
-          <p class="faq-a-inner">The Hollyvooz Marketplace connects studios directly with vetted professional voice actors across 60+ languages. Browse profiles with audio samples, book directly into your session, and manage contracts and payments — all within the platform. Talent are pre-screened for equipment quality and professional experience.</p>
-        </div>
-      </div>
-
-      <div class="faq-item" role="listitem">
-        <button class="faq-q" aria-expanded="false">
-          Is there a free trial? What happens when it ends?
-          <span class="faq-icon" aria-hidden="true">+</span>
-        </button>
-        <div class="faq-a" role="region">
-          <p class="faq-a-inner">All new accounts start with a 14-day free trial of the Professional plan — no credit card required. When the trial ends, you can choose to subscribe or downgrade to the Starter plan. Your recordings and sessions are never deleted; you retain full access to your cloud archive regardless of your plan status.</p>
-        </div>
-      </div>
-
-      <div class="faq-item" role="listitem">
-        <button class="faq-q" aria-expanded="false">
-          How is pricing structured for large agencies managing multiple clients?
-          <span class="faq-icon" aria-hidden="true">+</span>
-        </button>
-        <div class="faq-a" role="region">
-          <p class="faq-a-inner">Enterprise plans support multi-tenant architecture — meaning you can manage separate client workspaces with isolated data, custom branding, and individual billing under a single agency account. Volume discounts are available from 10+ seats. Contact our sales team for a tailored proposal.</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ─── CTA ──────────────────────────────────────────────────────────── -->
-<section class="cta-section" id="cta" aria-labelledby="cta-heading">
-  <div class="container">
-    <div class="fade-up">
-      <span class="section-tag" style="justify-content:center;">Get started</span>
-      <h2 class="h2" id="cta-heading">
-        The world's best voice productions<br>
-        <span class="grad-text">start here.</span>
-      </h2>
-      <p class="lead" style="margin:16px auto 44px;">
-        Join 500+ studios already using Hollyvooz to close the distance between talent, directors and clients — without compromising on quality.
-      </p>
-      <div class="cta-actions">
-        <a href="#" class="btn btn-primary btn-lg">
-          Start your free trial
-          <span class="arrow-icon">→</span>
-        </a>
-        <a href="#" class="btn btn-ghost btn-lg">Talk to sales</a>
-      </div>
-      <p style="margin-top:20px;font-size:13px;color:var(--text-3);">
-        14-day free trial · No credit card · Cancel anytime
-      </p>
-    </div>
-  </div>
-</section>
-
-</main>
-
-<!-- ─── Footer ───────────────────────────────────────────────────────── -->
-<footer class="footer" aria-label="Site footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <a href="/" class="nav-logo" style="display:inline-flex;">
-          <div class="logo-mark" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <path d="M3 9a6 6 0 0 1 12 0" stroke="white" stroke-width="2" stroke-linecap="round"/>
-              <circle cx="9" cy="9" r="2" fill="white"/>
-            </svg>
-          </div>
-          Hollyvooz
-        </a>
-        <p>The cloud platform for professional voice production, remote dubbing and advertising voice-over. Built for the teams who care about quality.</p>
-      </div>
+<footer>
+  <div class="wrap">
+    <div class="foot">
       <div>
-        <div class="footer-col-title">Platform</div>
-        <nav class="footer-links" aria-label="Platform links">
-          <a href="#">Real-time Sessions</a>
-          <a href="#">Cloud Archive</a>
-          <a href="#">AI Quality Check</a>
-          <a href="#">Multi-language</a>
-          <a href="#">Marketplace</a>
-          <a href="#">Integrations</a>
-        </nav>
+        <a class="brand" href="#inicio"><svg width="28" height="28" aria-hidden="true"><use href="#i-logo"/></svg>Hollyvooz</a>
+        <p>Producción de voz premium en español, con criterio humano.</p>
       </div>
-      <div>
-        <div class="footer-col-title">Company</div>
-        <nav class="footer-links" aria-label="Company links">
-          <a href="#">About</a>
-          <a href="#">Blog</a>
-          <a href="#">Careers</a>
-          <a href="#">Press</a>
-          <a href="#">Contact</a>
-        </nav>
-      </div>
-      <div>
-        <div class="footer-col-title">Resources</div>
-        <nav class="footer-links" aria-label="Resources links">
-          <a href="#">Documentation</a>
-          <a href="#">API Reference</a>
-          <a href="#">Status</a>
-          <a href="#">Security</a>
-          <a href="#">Community</a>
-        </nav>
-      </div>
-      <div>
-        <div class="footer-col-title">Solutions</div>
-        <nav class="footer-links" aria-label="Solutions links">
-          <a href="#">Advertising</a>
-          <a href="#">Film &amp; TV Dubbing</a>
-          <a href="#">E-learning</a>
-          <a href="#">Audiobooks</a>
-          <a href="#">Video Games</a>
-          <a href="#">Enterprise</a>
-        </nav>
-      </div>
+      <a class="btn btn--primary" href="#brief">Enviar brief</a>
     </div>
-    <div class="footer-bottom">
-      <p class="footer-copy">© 2026 Hollyvooz, Inc. All rights reserved.</p>
-      <nav class="footer-legal" aria-label="Legal links">
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms of Service</a>
-        <a href="#">Cookie Settings</a>
-        <a href="#">Accessibility</a>
-      </nav>
+    <div class="foot-bottom">
+      <span>Rediseño conceptual. Caso de estudio de Vicky Pascual Baztán.</span>
+      <span>Datos y personas de ejemplo.</span>
     </div>
   </div>
 </footer>
-<script src="js/main.js"></script>
+
+<script>
+(function(){
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---- Onda grabándose ---- */
+  var cv=document.getElementById('wave'), ctx=cv.getContext('2d');
+  var N=150, amp=[];
+  for(var i=0;i<N;i++){ // envolvente de una frase hablada: sílabas y pausas
+    var env=Math.abs(Math.sin(i*0.21))*(0.45+0.55*Math.abs(Math.cos(i*0.067)));
+    if((i>44&&i<52)||(i>98&&i<104)) env*=0.08;
+    amp.push(0.06+0.94*env);
+  }
+  var DUR=15, start=performance.now(), t=9.4;
+  function fmt(s){var f=Math.floor((s%1)*25);var sec=Math.floor(s);return '00:00:'+String(sec).padStart(2,'0')+':'+String(f).padStart(2,'0');}
+  function draw(){
+    var dpr=window.devicePixelRatio||1, w=cv.clientWidth, h=cv.clientHeight;
+    if(cv.width!==w*dpr){cv.width=w*dpr;cv.height=h*dpr;}
+    ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,w,h);
+    var step=w/N, bw=Math.max(2,step*0.55), p=t/DUR, head=p*w;
+    for(var i=0;i<N;i++){
+      var x=i*step, done=x<head, a=amp[i], bh=done?Math.max(3,a*h*0.9):3;
+      ctx.fillStyle=done?'#3182BE':'#363B57';
+      var y=(h-bh)/2; ctx.beginPath();
+      if(ctx.roundRect) ctx.roundRect(x,y,bw,bh,bw/2); else ctx.rect(x,y,bw,bh);
+      ctx.fill();
+    }
+    ctx.fillStyle='#F08A8A'; ctx.fillRect(Math.min(head,w-2),0,2,h);
+    document.getElementById('tc').textContent=fmt(t);
+    document.getElementById('tc-take').textContent='0:'+String(Math.floor(t)).padStart(2,'0');
+  }
+  var msg=document.getElementById('live-msg'), running=!reduce, raf=null, pausedAt=0;
+  var btn=document.getElementById('anim-toggle'), con=document.querySelector('.console');
+  function setPaused(p){
+    running=!p; con.classList.toggle('is-paused',p);
+    btn.setAttribute('aria-pressed',p?'true':'false');
+    btn.querySelector('use').setAttribute('href',p?'#i-play':'#i-pause');
+    btn.querySelector('span').textContent=p?'Reanudar animación':'Pausar animación';
+    if(p){ cancelAnimationFrame(raf); pausedAt=t; }
+    else { start=performance.now()-((pausedAt-9.4+DUR)%DUR)*1000; raf=requestAnimationFrame(loop); }
+  }
+  btn.addEventListener('click',function(){ setPaused(running); });
+  function loop(now){
+    if(!running) return;
+    t=((now-start)/1000+9.4)%DUR;
+    msg.classList.toggle('show', t>11 || t<0.5);
+    draw(); raf=requestAnimationFrame(loop);
+  }
+  window.addEventListener('resize',draw);
+  if(reduce){ t=12; msg.classList.add('show'); draw(); setPaused(true); }
+  else { start=performance.now(); raf=requestAnimationFrame(loop); }
+
+  /* Menú móvil: se cierra al elegir y con Esc */
+  var menu=document.querySelector('.menu');
+  menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){menu.open=false;});});
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&menu.open){ menu.open=false; menu.querySelector('summary').focus(); }});
+
+  /* ---- Demos de casting (sin audio en la demo) ---- */
+  document.querySelectorAll('.play').forEach(function(b){
+    b.addEventListener('click',function(){
+      var on=b.getAttribute('aria-pressed')==='true';
+      document.querySelectorAll('.play').forEach(function(o){o.setAttribute('aria-pressed','false');o.querySelector('use').setAttribute('href','#i-play');});
+      if(!on){b.setAttribute('aria-pressed','true');b.querySelector('use').setAttribute('href','#i-pause');}
+    });
+  });
+
+  /* ---- Formulario ---- */
+  var form=document.getElementById('form-brief'), email=document.getElementById('email'), err=document.getElementById('email-err'), done=document.getElementById('done');
+  function check(){
+    var v=email.value.trim(), m='';
+    if(!v) m='Escribe tu email para que podamos enviarte el enlace.';
+    else if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) m='Revisa el email: parece que le falta el dominio (por ejemplo, @empresa.com).';
+    err.querySelector('span').textContent=m; err.hidden=!m; email.setAttribute('aria-invalid',m?'true':'false');
+    return !m;
+  }
+  email.addEventListener('blur',function(){ if(email.value) check(); });
+  email.addEventListener('input',function(){ if(email.getAttribute('aria-invalid')==='true') check(); });
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(!check()){ email.focus(); return; }
+    document.getElementById('done-email').textContent=email.value.trim();
+    form.hidden=true; done.hidden=false; done.focus();
+  });
+  document.getElementById('again').addEventListener('click',function(){
+    form.reset(); email.setAttribute('aria-invalid','false'); err.hidden=true;
+    done.hidden=true; form.hidden=false; document.getElementById('t1').focus();
+  });
+})();
+</script>
 </body>
 </html>
